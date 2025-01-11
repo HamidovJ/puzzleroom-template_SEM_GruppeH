@@ -62,7 +62,7 @@ public class CommandTest {
         GameBoard gameBoard = new GameBoardImpl();
         new CommandLoad(new String[]{"test.maze"}).execute(gameBoard);
 
-        // Moving down twice should throw an InvalidMoveException
+        // Incorrect move command -> Should throw an InvalidArgumentsException
         new CommandFastmove(new String[]{"dd"}).execute(gameBoard);
     }
 
