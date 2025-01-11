@@ -7,7 +7,7 @@ import at.edu.c02.puzzleroom.exceptions.PuzzleRoomInvalidArgumentsException;
 import at.edu.c02.puzzleroom.exceptions.PuzzleRoomInvalidMoveException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CommandTest {
     @Test
@@ -74,5 +74,23 @@ public class CommandTest {
 
         // Moving down twice should throw an InvalidMoveException
         new CommandFastmove(new String[]{"d","d"}).execute(gameBoard);
+    }
+
+    @Test
+    public void fastMoveEndToTest() throws  Exception
+    {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"EndToEnd.maze"}).execute(gameBoard);
+        new CommandFastmove(new String[]{"d","r","d","l","d","r"}).execute(gameBoard);
+        assertTrue(gameBoard.isFinished());
+    }
+
+    @Test(expected = PuzzleRoomInvalidMoveException.class)
+    public void fastMoveEndToTestNegative() throws  Exception
+    {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"EndToEnd.maze"}).execute(gameBoard);
+        new CommandFastmove(new String[]{"d","d","d","l","d","r"}).execute(gameBoard);
+        assertFalse(gameBoard.isFinished());
     }
 }
