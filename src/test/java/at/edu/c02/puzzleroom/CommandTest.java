@@ -1,5 +1,6 @@
 package at.edu.c02.puzzleroom;
 
+import at.edu.c02.puzzleroom.commands.CommandFastmove;
 import at.edu.c02.puzzleroom.commands.CommandLoad;
 import at.edu.c02.puzzleroom.commands.CommandMove;
 import at.edu.c02.puzzleroom.exceptions.PuzzleRoomInvalidArgumentsException;
@@ -39,5 +40,39 @@ public class CommandTest {
 
         // This should throw a PuzzleRoomInvalidArgumentsException
         new CommandMove(new String[]{"invalid"}).execute(gameBoard);
+    }
+
+    @Test
+    public void moveFastmoveTest() throws  Exception
+    {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"test.maze"}).execute(gameBoard);
+        Player player = gameBoard.getPlayer();
+
+        new CommandFastmove(new String[]{"d","r","r"}).execute(gameBoard);
+
+        assertEquals(3, player.getStepCount());
+        assertEquals(2, player.getRow());
+        assertEquals(3, player.getCol());
+    }
+
+    @Test(expected = PuzzleRoomInvalidArgumentsException.class)
+    public void moveFastmoveTestNegative() throws  Exception
+    {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"test.maze"}).execute(gameBoard);
+
+        // Moving down twice should throw an InvalidMoveException
+        new CommandFastmove(new String[]{"dd"}).execute(gameBoard);
+    }
+
+    @Test(expected = PuzzleRoomInvalidMoveException.class)
+    public void moveFastmoveTestNegative2() throws  Exception
+    {
+        GameBoard gameBoard = new GameBoardImpl();
+        new CommandLoad(new String[]{"test.maze"}).execute(gameBoard);
+
+        // Moving down twice should throw an InvalidMoveException
+        new CommandFastmove(new String[]{"d","d"}).execute(gameBoard);
     }
 }
