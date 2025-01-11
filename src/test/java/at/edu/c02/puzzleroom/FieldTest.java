@@ -106,4 +106,76 @@ public class FieldTest {
         boolean successLeaveUpOneWayFieldWithUp= player.moveUp();
         assertTrue(successLeaveUpOneWayFieldWithUp);
     }
+
+
+
+    /*
+#######
+#o@@ x#
+#######
+     */
+
+    @Test
+    public void iceFieldSlideToWall() throws Exception {
+        GameBoard gameBoard = new GameBoardImpl();
+
+        new CommandLoad(new String[]{"src/test/resources/iceFieldWall.maze"}).execute(gameBoard);
+        Player player = gameBoard.getPlayer();
+
+        assertEquals(1, player.getRow());
+        assertEquals(1, player.getCol());
+
+        boolean successRight = player.moveRight();
+        assertTrue(successRight);
+
+        assertEquals(1, player.getRow());
+        assertEquals(4, player.getCol());
+
+        boolean successRightToGoal = player.moveRight();
+        assertTrue(successRightToGoal);
+
+        assertEquals(1, player.getRow());
+        assertEquals(5, player.getCol());
+    }
+
+
+
+    /*
+#######
+#o@@@@#
+#@@@@##
+#@@@@@#
+##@@@@#
+#@@@@x#
+#######
+     */
+
+    @Test
+    public void iceFieldSlideToNonIceField() throws Exception {
+        GameBoard gameBoard = new GameBoardImpl();
+
+        new CommandLoad(new String[]{"src/test/resources/iceFieldComplex.maze"}).execute(gameBoard);
+        Player player = gameBoard.getPlayer();
+
+        assertEquals(1, player.getRow());
+        assertEquals(1, player.getCol());
+
+        boolean successDown = player.moveDown();
+        assertTrue(successDown);
+
+        assertEquals(3, player.getRow());
+        assertEquals(1, player.getCol());
+
+        boolean successRight = player.moveRight();
+        assertTrue(successRight);
+
+        assertEquals(3, player.getRow());
+        assertEquals(5, player.getCol());
+
+        boolean successDownToGoal = player.moveDown();
+        assertTrue(successDownToGoal);
+
+        assertEquals(5, player.getRow());
+        assertEquals(5, player.getCol());
+    }
 }
