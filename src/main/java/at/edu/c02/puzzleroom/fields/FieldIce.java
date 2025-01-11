@@ -19,13 +19,6 @@ public class FieldIce extends BaseField {
     public boolean enterField(Direction direction) {
         Field nextField = getNextField(direction);
 
-        switch (direction) {
-            case Up -> nextField = gameBoard.getField(row - 1, col);
-            case Down -> gameBoard.getField(row + 1, col);
-            case Left -> gameBoard.getField(row, col - 1);
-            case Right -> gameBoard.getField(row, col + 1);
-        };
-
         if (!nextField.enterField(direction)) {
             setPlayerPositionToField();
             gameBoard.getPlayer().walkStep();
