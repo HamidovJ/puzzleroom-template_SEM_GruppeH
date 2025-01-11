@@ -75,4 +75,35 @@ public class FieldTest {
         // Game should be finished after moving right twice
         assertTrue(gameBoard.isFinished());
     }
+
+    @Test
+    public void oneWayField() throws Exception {
+        GameBoard gameBoard = new GameBoardImpl();
+        // Finish is reached when moving twice to the right
+        new CommandLoad(new String[]{"src/test/resources/TOneWay.maze"}).execute(gameBoard);
+        Player player = gameBoard.getPlayer();
+
+        // Player should start at 0 steps
+        assertEquals(0, player.getStepCount());
+
+        // Moving right should  be possible
+        boolean successMoveRight = player.moveRight();
+        assertTrue(successMoveRight);
+
+        // Moving right should NOT be possible, because this field is a ^ one-way field
+        boolean successLeaveUpOneWayFieldWithRight = player.moveRight();
+        assertFalse(successLeaveUpOneWayFieldWithRight);
+
+        // Moving left should NOT be possible, because this field is a ^ one-way field
+        boolean successLeaveUpOneWayFieldWithLeft = player.moveLeft();
+        assertFalse(successLeaveUpOneWayFieldWithLeft);
+
+        // Moving down should NOT be possible, because this field is a ^ one-way field
+        boolean successLeaveUpOneWayFieldWithDown = player.moveDown();
+        assertFalse(successLeaveUpOneWayFieldWithDown);
+
+        // Moving up should be possible, because this field is a ^ one-way field
+        boolean successLeaveUpOneWayFieldWithUp= player.moveUp();
+        assertTrue(successLeaveUpOneWayFieldWithUp);
+    }
 }
